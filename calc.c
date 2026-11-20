@@ -1,11 +1,27 @@
+#include <stdio.h>
 #include "calc.h"
 
-long long calculate(int left, char operation, int right)
+int calculate(int left, char operation, int right, long long *result)
 {
     switch (operation) {
-        case '+': return (long long)left + right;
-        case '-': return (long long)left - right;
-        case '*': return (long long)left * right;
-        default: return 0;
+        case '+':
+            *result = (long long)left + right;
+            break;
+        case '-':
+            *result = (long long)left - right;
+            break;
+        case '*':
+            *result = (long long)left * right;
+            break;
+        case '%':
+            if (right == 0) {
+                return 0;
+            }
+            *result = (long long)left % right;
+            break;
+        default:
+            return 0;
     }
+    return 1;
 }
+
