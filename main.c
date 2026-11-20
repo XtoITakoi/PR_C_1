@@ -4,12 +4,19 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc < 4 || (argc - 1) % 3 != 0) {
-        printf("Пример: cmdcalc 41 + 33 111 - 8\n");
+    if (argc < 6 || (argc - 3) % 3 != 0) {
+        printf("Пример: cmdcalc 41 + 33 111 - 8 -k 2\n");
         return 1;
     }
 
-    int count = (argc - 1) / 3;
+    if (argv[argc - 2][0] != '-' || argv[argc - 2][1] != 'k' ||
+        argv[argc - 2][2] != '\0') {
+        printf("Нужен флаг -k\n");
+        return 1;
+    }
+
+    int key = atoi(argv[argc - 1]);
+    int count = (argc - 3) / 3;
     long long *results = malloc((size_t)count * sizeof(long long));
     if (results == NULL) {
         return 1;
@@ -32,6 +39,7 @@ int main(int argc, char *argv[])
         printf("Ответ №%d: %lld\n", i + 1, results[i]);
     }
 
+    printText(results, count, key);
     free(results);
     return 0;
 }

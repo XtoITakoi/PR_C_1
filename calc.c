@@ -25,3 +25,11 @@ int calculate(int left, char operation, int right, long long *result)
     return 1;
 }
 
+void printText(const long long *results, int count, int key)
+{
+    printf("Результирующая строка: ");
+    for (int i = 0; i < count; ++i) {
+        printf("%c", (char)(results[i] - key));
+    }
+    printf("\n");
+}
