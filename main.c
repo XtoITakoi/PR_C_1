@@ -4,21 +4,34 @@
 
 int main(int argc, char *argv[])
 {
-    if (argc != 4) {
-        printf("Пример: cmdcalc 41 + 33\n");
+    if (argc < 4 || (argc - 1) % 3 != 0) {
+        printf("Пример: cmdcalc 41 + 33 111 - 8\n");
         return 1;
     }
 
-    int left = atoi(argv[1]);
-    int right = atoi(argv[3]);
-    long long result;
-
-    if (argv[2][1] != '\0' ||
-        !calculate(left, argv[2][0], right, &result)) {
-        printf("Неверная операция\n");
+    int count = (argc - 1) / 3;
+    long long *results = malloc((size_t)count * sizeof(long long));
+    if (results == NULL) {
         return 1;
     }
 
-    printf("Ответ: %lld\n", result);
+    for (int i = 0; i < count; ++i) {
+        int p = 1 + 3 * i;
+        int left = atoi(argv[p]);
+        int right = atoi(argv[p + 2]);
+
+        if (argv[p + 1][1] != '\0' ||
+            !calculate(left, argv[p + 1][0], right, &results[i])) {
+            printf("Ошибка в выражении %d\n", i + 1);
+            free(results);
+            return 1;
+        }
+    }
+
+    for (int i = 0; i < count; ++i) {
+        printf("Ответ №%d: %lld\n", i + 1, results[i]);
+    }
+
+    free(results);
     return 0;
 }
